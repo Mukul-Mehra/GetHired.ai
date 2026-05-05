@@ -3,9 +3,8 @@ import { useAuth } from './../../hooks/useAuth';
 import { Link, useNavigate} from "react-router-dom";
 
 export default function Login() {
-  const { loading, handleLogin } = useAuth();
+  const { loading, handleLogin, error, setError } = useAuth();
   const  navigate = useNavigate();  
-
   const [email, setEmail] = useState(null);
   const [password, setPassword] = useState(null);
 
@@ -36,6 +35,13 @@ export default function Login() {
         <h2 className="text-2xl font-bold text-center mb-6">
           Login
         </h2>
+
+        {error && (
+          <div className="mb-4 p-3 bg-red-900/50 border border-red-500 rounded-lg text-sm text-red-300 flex justify-between items-center">
+            <span>{error}</span>
+            <button onClick={() => setError(null)} className="ml-2 text-red-400 hover:text-red-200">&times;</button>
+          </div>
+        )}
 
         <div className="flex flex-col gap-4">
 

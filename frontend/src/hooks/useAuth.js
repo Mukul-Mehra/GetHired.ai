@@ -4,16 +4,18 @@ import { registerUser, loginUser, logoutUser, getUserData } from "../auth/auth.a
 
 export const useAuth = () => {
     const context = useContext(AuthContext)
-    const { user, setUser, loading, setLoading } = context
+    const { user, setUser, loading, setLoading, error, setError } = context
 
     const handleRegister = async ({ username, email, password }) => {
         setLoading(true);
+        setError(null);
         try {
             const data = await registerUser(username, email, password);
             setUser(data.user);
             return true;
         } catch (err) {
-            console.error("Register Error:", err.response?.data || err.message);
+            const msg = err.response?.data?.message || err.response?.data || err.message || "Registration failed";
+            setError(msg);
             return false;
         } finally {
             setLoading(false);
@@ -22,12 +24,14 @@ export const useAuth = () => {
 
     const handleLogin = async ({ email, password }) => {
         setLoading(true);
+        setError(null);
         try {
             const data = await loginUser(email, password);
             setUser(data.user);
             return true;
         } catch (err) {
-            console.error("Login Error:", err.response?.data || err.message);
+            const msg = err.response?.data?.message || err.response?.data || err.message || "Login failed";
+            setError(msg);
             return false;
         } finally {
             setLoading(false);
@@ -36,17 +40,19 @@ export const useAuth = () => {
 
     const handleLogout = async () => {
         setLoading(true);
+        setError(null);
         try {
             await logoutUser();
             setUser(null);
             return true;
         } catch (err) {
-            console.error("Logout Error:", err.response?.data || err.message);
+            const msg = err.response?.data?.message || err.response?.data || err.message || "Logout failed";
+            setError(msg);
             return false;
         } finally {
             setLoading(false);
         }
     };
-    return { user, loading, handleLogin, handleLogout, handleRegister }
+    return { user, loading, error, setError, handleLogin, handleLogout, handleRegister }
 
 } 

@@ -3,9 +3,8 @@ import { useAuth } from './../../hooks/useAuth';
 import { Link, useNavigate} from "react-router-dom";
 
 export default function Register() {
-  const { loading, handleRegister } = useAuth();
+  const { loading, handleRegister, error, setError } = useAuth();
   const  navigate = useNavigate();  
-
   const [username, setUsername] = useState(null);
   const [email, setEmail] = useState(null);
   const [password, setPassword] = useState(null);
@@ -33,6 +32,13 @@ export default function Register() {
         <h2 className="text-2xl font-bold text-center mb-6">
           Create Account
         </h2>
+
+        {error && (
+          <div className="mb-4 p-3 bg-red-900/50 border border-red-500 rounded-lg text-sm text-red-300 flex justify-between items-center">
+            <span>{error}</span>
+            <button onClick={() => setError(null)} className="ml-2 text-red-400 hover:text-red-200">&times;</button>
+          </div>
+        )}
 
         <div className="flex flex-col gap-4">
 

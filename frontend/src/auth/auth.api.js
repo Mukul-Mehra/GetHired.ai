@@ -54,7 +54,9 @@ export async function getUserData() {
         const response = await api.get("/api/auth/profile");
         return response.data;
     } catch (error) {
-        console.error(error.response?.data || error.message);
+        if (error.response?.status !== 401) {
+            console.error(error.response?.data || error.message);
+        }
         throw error;
     }
 }

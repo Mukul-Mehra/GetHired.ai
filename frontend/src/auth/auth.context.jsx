@@ -6,6 +6,7 @@ export const AuthContext = createContext()
 export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null)
     const [loading, setLoading] = useState(true)
+    const [error, setError] = useState(null)
 
     useEffect(() => {
         const fetchUserData = async () => {
@@ -13,7 +14,9 @@ export const AuthProvider = ({ children }) => {
                 const data = await getUserData();
                 setUser(data.user ?? data);
             } catch (error) {
-                console.error("Failed to fetch user:", error);
+                if (error.response?.status !== 401) {
+                    console.error("Failed to fetch user:", error);
+                }
                 setUser(null);
             } finally {
                 setLoading(false);
@@ -25,7 +28,7 @@ export const AuthProvider = ({ children }) => {
 
 
     return (
-        <AuthContext.Provider value={{ user, setUser, loading, setLoading }}>
+        <AuthContext.Provider value={{ user, setUser, loading, setLoading, error, setError }}>
             {children}
         </AuthContext.Provider>
     )
