@@ -5,9 +5,9 @@ import { Link, useNavigate} from "react-router-dom";
 export default function Register() {
   const { loading, handleRegister, error, setError } = useAuth();
   const  navigate = useNavigate();  
-  const [username, setUsername] = useState(null);
-  const [email, setEmail] = useState(null);
-  const [password, setPassword] = useState(null);
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
 
 
