@@ -1,6 +1,8 @@
-import { registerUserController, loginUserController,logoutUserController, profileController } from '../controllers/auth.controllers.js';
+import { registerUserController, loginUserController,logoutUserController, profileController, chatController } from '../controllers/auth.controllers.js';
 import { Router } from 'express';
 import authMiddleware from '../middleware/auth.middleware.js';
+import { validateBody } from "../middleware/validate.middleware.js";
+import { registerSchema, loginSchema, chatSchema } from "../validators/auth.validators.js";
 const authRouter = Router()
 
 /**
@@ -9,7 +11,7 @@ const authRouter = Router()
  * @access Public
  */
 
-authRouter.post("/register",registerUserController)
+authRouter.post("/register", validateBody(registerSchema), registerUserController)
 
 
 /**
@@ -18,7 +20,7 @@ authRouter.post("/register",registerUserController)
  * @access Public 
 */
 
-authRouter.post("/login",loginUserController)
+authRouter.post("/login", validateBody(loginSchema), loginUserController)
 
 /**
  * @route POST /api/auth/logout
@@ -35,5 +37,6 @@ authRouter.get("/logout",logoutUserController)
  * @access Private
  */
 authRouter.get("/profile",authMiddleware,profileController)
+authRouter.post("/chat", authMiddleware, validateBody(chatSchema), chatController)
 
 export default authRouter

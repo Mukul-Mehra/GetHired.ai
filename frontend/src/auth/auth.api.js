@@ -60,3 +60,13 @@ export async function getUserData() {
         throw error;
     }
 }
+
+export async function chatWithAI(message) {
+    try {
+        const response = await api.post("/api/auth/chat", { message });
+        return response.data;
+    } catch (err) {
+        console.error(err.response?.data || err.message);
+        throw err;
+    }
+}

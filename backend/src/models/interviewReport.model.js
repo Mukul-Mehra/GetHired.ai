@@ -1,10 +1,9 @@
-import { model, mongoose, Schema } from 'mongoose';
+import mongoose, { Schema } from "mongoose"
 
 /**
  * job description Schema : String
  * resume text : String
  * self Description : String
- * 
  * 
  * matchScore : Number
  *
@@ -106,7 +105,7 @@ const interviewReportSchema = new Schema({
         min: 0,
         max: 100
     },
-    technicalQestions : [technicalQuestionSchema],
+    technicalQuestions : [technicalQuestionSchema],
     behavioralQuestions : [behavioralQuestionSchema],
     skillGaps : [skillGapSchema],
     preparationPlan : [preparationPlanSchema]
@@ -114,4 +113,4 @@ const interviewReportSchema = new Schema({
 
 const interviewReportModel = mongoose.model('InterviewReport', interviewReportSchema)
 
-model.exports = interviewReportModel
+export default interviewReportModel
